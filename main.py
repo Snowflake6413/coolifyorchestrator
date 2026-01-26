@@ -47,7 +47,7 @@ def coolify_ver(ack, respond):
 def coolify_status(ack, respond):
      ack()
      response = requests.get(
-          f"{COOLIFY_API_URL}/version",
+          f"{COOLIFY_API_URL}/health",
           headers={"Authorization" : f"Bearer {COOLIFY_API_KEY}"}
         )
      if response.status_code == 200:
