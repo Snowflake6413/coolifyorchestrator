@@ -51,7 +51,7 @@ def coolify_status(ack, respond):
           headers={"Authorization" : f"Bearer {COOLIFY_API_KEY}"}
         )
      if response.status_code == 200:
-          respond(f"Coolify return health status: {response.text}")
+          respond(f"Coolify returned health status: {response.text}")
      else:
           respond(f"Error! {response.status_code}")
  
