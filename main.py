@@ -1,6 +1,7 @@
 import os
 import requests
 import time
+import sentry_sdk
 from dotenv import load_dotenv
 from slack_bolt import App
 from slack_bolt.adapter.socket_mode import SocketModeHandler
@@ -15,9 +16,15 @@ SLACK_APP_TOKEN = os.getenv("SLACK_APP_TOKEN")
 # Coolify
 COOLIFY_API_URL = os.getenv("COOLIFY_API_URL")
 COOLIFY_API_KEY = os.getenv("COOLIFY_API_KEY")
+# Sentry
+SENTRY_DSN = os.getenv("SENTRY_DSN")
 
 
 app = App(token=SLACK_BOT_TOKEN)
+
+sentry_sdk.init(
+     dsn=SENTRY_DSN
+)
 
 
 @app.command("/ping-44")
