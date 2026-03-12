@@ -23,7 +23,8 @@ SENTRY_DSN = os.getenv("SENTRY_DSN")
 app = App(token=SLACK_BOT_TOKEN)
 
 sentry_sdk.init(
-     dsn=SENTRY_DSN
+     dsn=SENTRY_DSN,
+     enable_logs=True,
 )
 
 
@@ -61,6 +62,27 @@ def coolify_status(ack, respond):
           respond(f"Coolify returned health status: {response.text}")
      else:
           respond(f"Error! {response.status_code}")
+
+
+@app.command("/coolify-apps")
+def coolify_resources_list(ack, respond):
+     ack()
+     response = requests.get(
+          f"{COOLIFY_API_URL}/applications",
+          headers={"Authorization" : f"Bearer {COOLIFY_API_URL}"}
+     )
+     if response.status_code == 200:
+          apps = response.json()
+          if not apps:
+               respond("No applications found!")
+               return
+          
+          for apps in apps:
+               status = app.get("status", "unknown")
+               name = app.get("name", "N/A")
+               uuid = app.get("uuid", "N/A")
+               
+
  
 
 
