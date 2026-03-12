@@ -73,17 +73,22 @@ def coolify_resources_list(ack, respond):
      )
      if response.status_code == 200:
           apps = response.json()
+          if isinstance(apps, dict):
+               apps = [apps]
           if not apps:
                respond("No applications found!")
                return
           
-          for apps in apps:
-               status = app.get("status", "unknown")
-               name = app.get("name", "N/A")
-               uuid = app.get("uuid", "N/A")
-               
-
- 
+          app_lines = []
+          for application in apps:
+               status = application.get("status", "unknown")
+               name = application.get("name", "N/A")
+               uuid = application.get("uuid", "N/A")
+               app_lines.append(f"• *{name}* (uuid: `{uuid}`) — status: `{status}`")
+          
+          respond("\n".join(app_lines))
+     else:
+          respond(f"Error fetching applications! Status code: {response.status_code}")
 
 
 
@@ -103,4 +108,5 @@ def coolify_resources_list(ack, respond):
 
 if __name__ == "__main__":
     SocketModeHandler(app, os.environ["SLACK_APP_TOKEN"]).start()
+    
     
