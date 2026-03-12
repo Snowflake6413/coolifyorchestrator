@@ -69,7 +69,7 @@ def coolify_resources_list(ack, respond):
      ack()
      response = requests.get(
           f"{COOLIFY_API_URL}/applications",
-          headers={"Authorization" : f"Bearer {COOLIFY_API_URL}"}
+          headers={"Authorization" : f"Bearer {COOLIFY_API_KEY}"}
      )
      if response.status_code == 200:
           apps = response.json()
